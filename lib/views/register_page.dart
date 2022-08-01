@@ -20,6 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
   List<String> classSlta = ["10", "11", "12"];
   String selectedClass = "10";
 
+  final emailController = TextEditingController();
+  final namaController = TextEditingController();
   onTapGender(Gender genderInput) {
     if (genderInput == Gender.lakiLaki) {
       gender = "Laki-laki";
@@ -48,7 +50,10 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: const EdgeInsets.only(bottom: 20.0),
           child: ButtonLogin(
               onTap: () {
-                Navigator.of(context).pushNamed(MainPage.route);
+                print(emailController.text);
+                print(namaController.text);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    MainPage.route, (context) => false);
               },
               backgroundColor: R.colors.primary,
               borderColor: Colors.white,
@@ -71,10 +76,12 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RegisterTextFileld(
+                controller: namaController,
                 title: 'Nama Lengkap',
                 hintText: 'Contoh: Agus Dwi Anggoro',
               ),
               RegisterTextFileld(
+                controller: emailController,
                 title: 'Email',
                 hintText: 'Contoh: agus@example.com',
               ),
@@ -195,9 +202,11 @@ class RegisterTextFileld extends StatelessWidget {
     Key? key,
     required this.title,
     required this.hintText,
+    this.controller,
   }) : super(key: key);
   final String title;
   final String hintText;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -216,6 +225,7 @@ class RegisterTextFileld extends StatelessWidget {
               border: Border.all(color: R.colors.greyborder),
               borderRadius: BorderRadius.circular(8)),
           child: TextField(
+            controller: controller,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
