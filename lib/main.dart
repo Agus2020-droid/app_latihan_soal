@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:latihan_soal/views/login_page.dart';
 import 'package:latihan_soal/views/main_page.dart';
 import 'package:latihan_soal/views/register_page.dart';
@@ -17,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          textTheme: GoogleFonts.poppinsTextTheme(),
           // This is the theme of your application.
-          //
           // Try running your application with "flutter run". You'll see the
           // application has a blue toolbar. Then, without quitting the app, try
           // changing the primarySwatch below to Colors.green and then invoke

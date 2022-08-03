@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage> {
                   child: Material(
                     child: InkWell(
                       onTap: () {
-                        print("Home");
+                        // print("Home");
                         index = 0;
                         _pc.animateToPage(index,
                             duration: Duration(milliseconds: 500),
@@ -111,7 +111,7 @@ class _MainPageState extends State<MainPage> {
                   child: Material(
                     child: InkWell(
                       onTap: () {
-                        print("Profile");
+                        // print("Profile");
                         index = 1;
                         _pc.animateToPage(index,
                             duration: Duration(milliseconds: 500),

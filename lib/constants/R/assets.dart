@@ -6,4 +6,8 @@ class Assets {
   String icHome = "assets/ic_home.png";
   String imgProfile = "assets/img_home.png";
   String icDiscuss = "assets/ic_discuss.png";
+  String imgUser = "assets/ic_avatar.png";
+  String imgHome = "assets/img_home.png";
+  String icAtom = "assets/ic_atom.png";
+  String imgBanner = "assets/img_banner.png";
 }
