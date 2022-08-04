@@ -19,9 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String gender = "Laki-laki";
   List<String> classSlta = ["10", "11", "12"];
   String selectedClass = "10";
-
   final emailController = TextEditingController();
-  final namaController = TextEditingController();
+  final fullNameController = TextEditingController();
+
   onTapGender(Gender genderInput) {
     if (genderInput == Gender.lakiLaki) {
       gender = "Laki-laki";
@@ -61,11 +61,13 @@ class _RegisterPageState extends State<RegisterPage> {
               onTap: () {
                 // print(emailController.text);
                 // print(namaController.text);
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //     MainPage.route, (context) => false);
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     MainPage.route, (context) => false);
               },
               backgroundColor: R.colors.primary,
-              borderColor: Colors.white,
+              borderColor: R.colors.primary,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
@@ -85,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RegisterTextFileld(
-                controller: namaController,
+                controller: fullNameController,
                 title: 'Nama Lengkap',
                 hintText: 'Contoh: Agus Dwi Anggoro',
               ),

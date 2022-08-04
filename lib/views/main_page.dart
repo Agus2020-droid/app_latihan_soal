@@ -10,6 +10,7 @@ import 'package:latihan_soal/views/main/profile/profile_page.dart';
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
   static String route = "main_page";
+
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -17,6 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final _pc = PageController();
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

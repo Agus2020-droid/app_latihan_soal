@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/views/main/latihan_soal/mapel_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,28 +26,33 @@ class _HomePageState extends State<HomePage> {
             _buildTopBanner(context),
             _buildHomeListMapel(),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 21),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text("Terbaru",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      // Spacer(),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("Terbaru",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
                   ),
+                  SizedBox(height: 10),
                   Container(
-                    height: 170,
+                    height: 150,
                     child: ListView.builder(
+                      itemCount: 5,
+                      scrollDirection: Axis.horizontal,
                       itemBuilder: ((context, index) {
-                        return Image.asset(R.assets.imgBanner);
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Image.asset(R.assets.imgBanner),
+                        );
                       }),
                     ),
                   )
                 ],
               ),
-            )
+            ),
+            SizedBox(height: 35),
           ],
         ),
       ),
@@ -64,12 +70,15 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               Spacer(),
               TextButton(
-                  onPressed: () {},
-                  child: Text("Lihat Semua",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: R.colors.primary)))
+                onPressed: () {
+                  Navigator.of(context).pushNamed(MapelPage.route);
+                },
+                child: Text("Lihat Semua",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: R.colors.primary)),
+              )
             ],
           ),
           MapelWidget(),
