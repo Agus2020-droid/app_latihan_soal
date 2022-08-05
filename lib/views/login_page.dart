@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latihan_soal/constants/R/assets.dart';
 import 'package:latihan_soal/constants/r.dart';
 import 'package:latihan_soal/views/register_page.dart';
@@ -16,6 +18,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +79,20 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Spacer(),
             ButtonLogin(
-                onTap: () {
-                  Navigator.of(context).pushNamed(RegisterPage.route);
+                onTap: () async {
+                  // kondisi sign-in google
+                  await signInWithGoogle();
+
+                  final user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    Navigator.of(context).pushNamed(RegisterPage.route);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Gagal Masuk"),
+                      //durasi snackbar
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
                 },
                 backgroundColor: Colors.white,
                 borderColor: R.colors.primary,
