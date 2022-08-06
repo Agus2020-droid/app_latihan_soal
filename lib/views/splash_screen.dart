@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 5), () {
       //kondisi
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
@@ -31,7 +31,11 @@ class SplashScreen extends StatelessWidget {
     });
     return Scaffold(
       backgroundColor: Color(0xff01bdc2),
-      body: Center(child: Image.asset(R.assets.icSplash)),
+      body: Center(
+          child: Image.asset(
+        R.assets.icSplash,
+        width: MediaQuery.of(context).size.width * 0.5,
+      )),
     );
   }
 }

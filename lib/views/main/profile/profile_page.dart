@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -167,7 +168,17 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           GestureDetector(
             onTap: () async {
-              await GoogleSignIn().signOut();
+              if (kIsWeb) {
+                await GoogleSignIn(
+                    clientId:
+                        "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com",
+                    scopes: <String>[
+                      'email',
+                      'https://www.googleapis.com/auth/contacts.readonly',
+                    ]).signOut();
+              } else {
+                await GoogleSignIn().signOut();
+              }
               await FirebaseAuth.instance.signOut();
               Navigator.of(context)
                   .pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
