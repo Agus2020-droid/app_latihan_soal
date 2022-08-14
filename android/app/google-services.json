@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "951632455737",
+    "project_id": "latihan-soal-7b711",
+    "storage_bucket": "latihan-soal-7b711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951632455737:android:ab44e0d7931869bb6705e8",
+        "android_client_info": {
+          "package_name": "com.example.latihan_soal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951632455737-4h8vlrdp6c7eo56r0cfj8o6j4ros3ds3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.latihan_soal",
+            "certificate_hash": "0e31e81a0c7e66c3222299178c9b217dc3323f35"
+          }
+        },
+        {
+          "client_id": "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCq3NdQhg00AvyXEpxPRSKfLJ0Lc8X4QI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "951632455737-1laf49jrt1cin0g6clife70q06vvhvkm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.latihanSoal"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
