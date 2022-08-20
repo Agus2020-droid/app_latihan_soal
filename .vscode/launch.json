@@ -4,6 +4,11 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        // {"name": "latihan_soal",
+        // "request": "launch",
+        // "type": "dart",
+        // "deviceId": "91ca8f46"
+        // },
         {
             "name": "latihan_soal",
             "request": "launch",
@@ -11,8 +16,9 @@
             // "deviceId": "104bd6290507"
             "deviceId": "chrome",
             "args": [
-                "--web-renderer","html"
-            ]
+                // "--web-renderer","html"
+                "--web-port","5000"
+            ],
         },
         {
             "name": "latihan_soal (profile mode)",

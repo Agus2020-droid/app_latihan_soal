@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/helpers/preference_helper.dart';
+import 'package:latihan_soal/models/user_by_email.dart';
 import 'package:latihan_soal/views/main/latihan_soal/mapel_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +17,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UserData? dataUser;
+  Future getUserDAta() async {
+    dataUser = await PreferenceHelper().getUserData();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getMapel();
+    // getBanner();
+    // setupFcm();
+    getUserDAta();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +151,8 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi, Nama User",
+                  // "Hi, " + (dataUser?.userName ?? "Nama User"),
+                  "Hi, " + (dataUser?.userName ?? "Nama"),
                   style: GoogleFonts.poppins()
                       .copyWith(fontSize: 12, fontWeight: FontWeight.w700),
                 ),

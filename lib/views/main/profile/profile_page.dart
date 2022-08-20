@@ -7,7 +7,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/helpers/preference_helper.dart';
+import 'package:latihan_soal/models/user_by_email.dart';
 import 'package:latihan_soal/views/login_page.dart';
+import 'package:latihan_soal/views/main/profile/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -17,8 +20,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  UserData? user;
+  getUserData() async {
+    final data = await PreferenceHelper().getUserData();
+    user = data;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -26,11 +44,25 @@ class _ProfilePageState extends State<ProfilePage> {
         centerTitle: true,
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                final result = await Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return EditProfilePage();
+                }));
+                print("result");
+                print(result);
+                if (result == true) {
+                  getUserData();
+                }
+              },
               child: Text("Edit", style: TextStyle(color: Colors.white)))
         ],
       ),
-      body: Column(
+      body:
+          // user == null
+          //     ? Center(child: CircularProgressIndicator())
+          //     :
+          Column(
         children: [
           Container(
             padding: EdgeInsets.only(top: 28, bottom: 50, left: 15, right: 15),
@@ -46,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Nama User",
+                        "Nama",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -170,12 +202,14 @@ class _ProfilePageState extends State<ProfilePage> {
             onTap: () async {
               if (kIsWeb) {
                 await GoogleSignIn(
-                    clientId:
-                        "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com",
-                    scopes: <String>[
-                      'email',
-                      'https://www.googleapis.com/auth/contacts.readonly',
-                    ]).signOut();
+                        clientId:
+                            "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com"
+                        // scopes: <String>[
+                        //   'email',
+                        //   'https://www.googleapis.com/auth/contacts.readonly',
+                        // ]
+                        )
+                    .signOut();
               } else {
                 await GoogleSignIn().signOut();
               }
@@ -185,24 +219,28 @@ class _ProfilePageState extends State<ProfilePage> {
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 13),
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 10, color: Colors.black.withOpacity(0.25))
-                  ]),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 7, color: Colors.black.withOpacity(0.25))
+                ],
+              ),
               child: Row(children: [
-                Text(
-                  "Keluar",
-                  style: TextStyle(color: Colors.red),
-                ),
-                SizedBox(width: 10),
                 Icon(
                   Icons.exit_to_app,
                   color: Colors.red,
-                )
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "Keluar",
+                  style: TextStyle(
+                    color: Colors.red,
+                    // fontSize: 12,
+                  ),
+                ),
               ]),
             ),
           )

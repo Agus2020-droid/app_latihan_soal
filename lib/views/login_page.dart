@@ -8,6 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latihan_soal/constants/R/assets.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/helpers/preference_helper.dart';
+import 'package:latihan_soal/models/network_response.dart';
+import 'package:latihan_soal/models/user_by_email.dart';
+import 'package:latihan_soal/repository/auth_api.dart';
+import 'package:latihan_soal/views/main_page.dart';
 import 'package:latihan_soal/views/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -98,13 +103,34 @@ class _LoginPageState extends State<LoginPage> {
                   // kondisi sign-in google
                   await signInWithGoogle();
 
+                  // final user = FirebaseAuth.instance.currentUser;
+                  // if (user != null) {
+                  //   Navigator.of(context).pushNamed(RegisterPage.route);
+                  // } else {
+                  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  //     content: Text("Gagal Masuk"),
+                  //     //durasi snackbar
+                  //     duration: Duration(seconds: 2),
+                  //   ));
+                  // }
+
                   final user = FirebaseAuth.instance.currentUser;
                   if (user != null) {
-                    Navigator.of(context).pushNamed(RegisterPage.route);
+                    final dataUser = await AuthApi().getUserByEmail();
+                    if (user.uid != null) {
+                      // final data = UserByEmail.fromJson(dataUser.data!);
+                      if (user.uid != null) {
+                        //     await PreferenceHelper().setUserData(data.data!);
+                        Navigator.of(context).pushNamed(MainPage.route);
+                      } else {
+                        Navigator.of(context).pushNamed(RegisterPage.route);
+                        // print(dataUser.data);
+                        print(user.uid);
+                      }
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Gagal Masuk"),
-                      //durasi snackbar
                       duration: Duration(seconds: 2),
                     ));
                   }

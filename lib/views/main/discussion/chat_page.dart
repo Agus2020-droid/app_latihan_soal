@@ -5,9 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:latihan_soal/constants/r.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:latihan_soal/constants/r.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key, this.id}) : super(key: key);
@@ -19,7 +19,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final textController = TextEditingController();
   late CollectionReference chat;
-  // late QuerySnapshot chatData;
+  late QuerySnapshot chatData;
   // List<QueryDocumentSnapshot>? listChat;
   // getDataFromFirebase() async {
   //   chatData = await FirebaseFirestore.instance
@@ -120,16 +120,16 @@ class _ChatPageState extends State<ChatPage> {
                                                       String id =
                                                           currentChat.id;
                                                       print(id);
-                                                      // chat.doc(id).update({
-                                                      //   "is_deleted": true
-                                                      // }).then((value) {
-                                                      //   ScaffoldMessenger.of(
-                                                      //           context)
-                                                      //       .showSnackBar(SnackBar(
-                                                      //           content: Text(
-                                                      //               "Text telah dihapus")));
-                                                      //   Navigator.pop(context);
-                                                      // });
+                                                      chat.doc(id).update({
+                                                        "is_deleted": true
+                                                      }).then((value) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(SnackBar(
+                                                                content: Text(
+                                                                    "Text telah dihapus")));
+                                                        Navigator.pop(context);
+                                                      });
                                                     },
                                                   )
                                               ],
@@ -156,7 +156,10 @@ class _ChatPageState extends State<ChatPage> {
                                                   ? Radius.circular(0)
                                                   : Radius.circular(10),
                                         )),
-                                    child: baloonChat(currentChat),
+                                    child: Text(
+                                      currentChat["content"],
+                                    ),
+                                    // baloonChat(currentChat),
                                   ),
                                 ),
                                 Text(
@@ -205,33 +208,33 @@ class _ChatPageState extends State<ChatPage> {
                                 controller: textController,
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
-                                      icon: Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.blue,
-                                      ),
-                                      onPressed: () async {
-                                        // final imgResult =
-                                        //     await ImagePicker().pickImage(
-                                        //   source: ImageSource.camera,
-                                        //   maxHeight: 500,
-                                        //   maxWidth: 500,
-                                        // );
+                                    icon: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () async {
+                                      final imgResult =
+                                          await ImagePicker().pickImage(
+                                        source: ImageSource.camera,
+                                        maxHeight: 500,
+                                        maxWidth: 500,
+                                      );
 
-                                        // if (imgResult != null) {
-                                        //   File file = File(imgResult.path);
-                                        //   final name = imgResult.path.split("/");
-                                        //   String room = widget.id ?? "kimia";
-                                        //   String ref =
-                                        //       "chat/$room/${user.uid}/${imgResult.name}";
+                                      if (imgResult != null) {
+                                        File file = File(imgResult.path);
+                                        final name = imgResult.path.split("/");
+                                        String room = widget.id ?? "kimia";
+                                        String ref =
+                                            "chat/$room/${user.uid}/${imgResult.name}";
 
-                                        // final imgResUpload =
-                                        //     await FirebaseStorage.instance
-                                        //         .ref()
-                                        //         .child(ref)
-                                        //         .putFile(file);
+                                        final imgResUpload =
+                                            await FirebaseStorage.instance
+                                                .ref()
+                                                .child(ref)
+                                                .putFile(file);
 
-                                        // final url = await imgResUpload.ref
-                                        //     .getDownloadURL();
+                                        final url = await imgResUpload.ref
+                                            .getDownloadURL();
 
                                         final chatContent = {
                                           "nama": user.displayName,
@@ -239,9 +242,9 @@ class _ChatPageState extends State<ChatPage> {
                                           "content": textController.text,
                                           "email": user.email,
                                           "photo": user.photoURL,
-                                          // "ref": ref,
+                                          "ref": ref,
                                           "type": "file",
-                                          // "file_url": url,
+                                          "file_url": url,
                                           "time": FieldValue.serverTimestamp(),
                                           "is_deleted": false
                                         };
@@ -249,8 +252,8 @@ class _ChatPageState extends State<ChatPage> {
                                           textController.clear();
                                         });
                                       }
-                                      // },
-                                      ),
+                                    },
+                                  ),
                                   contentPadding: EdgeInsets.zero,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -305,15 +308,15 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget baloonChat(QueryDocumentSnapshot currentChat) {
-    // if (currentChat["is_deleted"] == true) {
-    return const Text(
-      "Pesan telah dihapus",
-      style: TextStyle(
-        color: Colors.grey,
-        fontStyle: FontStyle.italic,
-      ),
-    );
-    // }
+    if (currentChat["is_deleted"] == true) {
+      return const Text(
+        "Pesan telah dihapus",
+        style: TextStyle(
+          color: Colors.grey,
+          fontStyle: FontStyle.italic,
+        ),
+      );
+    }
 
     return currentChat["type"] == "file"
         ? Image.network(
