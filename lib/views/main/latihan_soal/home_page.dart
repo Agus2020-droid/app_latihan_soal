@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   UserData? dataUser;
   Future getUserDAta() async {
-    dataUser = await PreferenceHelper().getUserData();
+    // dataUser = await PreferenceHelper().getUserData();
     setState(() {});
   }
 

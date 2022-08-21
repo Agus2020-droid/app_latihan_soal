@@ -1,5 +1,5 @@
 class ApiUrl {
-  static String baseUrl = "https://eskul.id/api/";
+  static String baseUrl = "https://ekskul.id/api/";
   static String apiKey = "18be70c0-4e4d-44ff-a475-50c51ece99a0";
   static String users = "users";
   static String userRegistrasi = "users/registrasi";

@@ -22,8 +22,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   UserData? user;
   getUserData() async {
-    final data = await PreferenceHelper().getUserData();
-    user = data;
+    // final data = await PreferenceHelper().getUserData();
+    // user = data;
     setState(() {});
   }
 

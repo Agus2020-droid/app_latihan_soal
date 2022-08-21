@@ -14,6 +14,7 @@ import 'package:latihan_soal/models/user_by_email.dart';
 import 'package:latihan_soal/repository/auth_api.dart';
 import 'package:latihan_soal/views/login_page.dart';
 import 'package:latihan_soal/views/main_page.dart';
+import 'package:latihan_soal/views/register_page.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,12 +22,25 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 5), () {
-      //kondisi
-      final user = FirebaseAuth.instance.currentUser;
+    Timer(const Duration(seconds: 5), () async {
+      final user = UserEmail.getUserEmail();
       if (user != null) {
-        //TODO redirect to register or home
-        Navigator.of(context).pushReplacementNamed(MainPage.route);
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          final dataUser = await AuthApi().getUserByEmail();
+          if (dataUser != null) {
+            final data = UserByEmail.fromJson(dataUser);
+            if (data.status == 1) {
+              Navigator.of(context).pushNamed(MainPage.route);
+
+              //     await PreferenceHelper().setUserData(data.data!);
+            } else {
+              Navigator.of(context).pushNamed(RegisterPage.route);
+              // print(dataUser.data);
+              // print(user.uid);
+            }
+          }
+        }
       } else {
         Navigator.of(context).pushReplacementNamed(LoginPage.route);
       }

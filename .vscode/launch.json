@@ -7,18 +7,17 @@
         // {"name": "latihan_soal",
         // "request": "launch",
         // "type": "dart",
-        // "deviceId": "91ca8f46"
+        // "deviceId": "91ca8f46",
         // },
         {
             "name": "latihan_soal",
             "request": "launch",
             "type": "dart",
-            // "deviceId": "104bd6290507"
             "deviceId": "chrome",
             "args": [
-                // "--web-renderer","html"
-                "--web-port","5000"
-            ],
+                // "--web-renderer","html",
+                "--web-port","5000",
+            ],    
         },
         {
             "name": "latihan_soal (profile mode)",
