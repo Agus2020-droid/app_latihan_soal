@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/helpers/user_email.dart';
 import 'package:latihan_soal/views/main/discussion/chat_page.dart';
 import 'package:latihan_soal/views/main/latihan_soal/home_page.dart';
 import 'package:latihan_soal/views/main/profile/profile_page.dart';

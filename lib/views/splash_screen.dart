@@ -8,6 +8,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/helpers/preference_helper.dart';
 import 'package:latihan_soal/helpers/user_email.dart';
 import 'package:latihan_soal/models/network_response.dart';
 import 'package:latihan_soal/models/user_by_email.dart';
@@ -24,26 +25,28 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 5), () async {
       final user = UserEmail.getUserEmail();
+      print(user);
       if (user != null) {
         final user = FirebaseAuth.instance.currentUser;
         if (user != null) {
           final dataUser = await AuthApi().getUserByEmail();
-          if (dataUser != null) {
-            final data = UserByEmail.fromJson(dataUser);
+          if (dataUser.status == Status.success) {
+            final data = UserByEmail.fromJson(dataUser.data!);
             if (data.status == 1) {
               Navigator.of(context).pushNamed(MainPage.route);
+              // print(dataUser.status);
 
-              //     await PreferenceHelper().setUserData(data.data!);
+              // await PreferenceHelper().setUserData(data.data!);
             } else {
               Navigator.of(context).pushNamed(RegisterPage.route);
-              // print(dataUser.data);
-              // print(user.uid);
+              // print(dataUser.status);
+
             }
           }
         }
       } else {
-        Navigator.of(context).pushReplacementNamed(LoginPage.route);
-      }
+      Navigator.of(context).pushReplacementNamed(LoginPage.route);
+        }
     });
     // Timer(const Duration(seconds: 2), () async {
     //   final user = UserEmail.getUserEmail();

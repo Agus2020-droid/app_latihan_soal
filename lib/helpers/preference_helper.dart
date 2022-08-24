@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHelper {
   static String userData = "data_user";
-  // static String userData = "data_user";
 
   Future<SharedPreferences> sharePref() async {
     final sharePref = await SharedPreferences.getInstance();

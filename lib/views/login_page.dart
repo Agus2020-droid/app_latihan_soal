@@ -117,12 +117,12 @@ class _LoginPageState extends State<LoginPage> {
                   final user = FirebaseAuth.instance.currentUser;
                   if (user != null) {
                     final dataUser = await AuthApi().getUserByEmail();
-                    if (dataUser != null) {
-                      final data = UserByEmail.fromJson(dataUser);
+                    if (dataUser.status == Status.success) {
+                      final data = UserByEmail.fromJson(dataUser.data!);
                       if (data.status == 1) {
                         Navigator.of(context).pushNamed(MainPage.route);
 
-                        //     await PreferenceHelper().setUserData(data.data!);
+                        await PreferenceHelper().setUserData(data.data!);
                       } else {
                         Navigator.of(context).pushNamed(RegisterPage.route);
                         print(data);

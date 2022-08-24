@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:latihan_soal/constants/r.dart';
+import 'package:latihan_soal/helpers/preference_helper.dart';
 import 'package:latihan_soal/helpers/user_email.dart';
+import 'package:latihan_soal/models/network_response.dart';
+import 'package:latihan_soal/models/user_by_email.dart';
 import 'package:latihan_soal/repository/auth_api.dart';
 import 'package:latihan_soal/views/login_page.dart';
 import 'package:latihan_soal/views/main_page.dart';
@@ -74,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
           child: ButtonLogin(
-              onTap: () {
+              onTap: () async {
                 final json = {
                   "email": emailController.text,
                   "nama_lengkap": fullNameController.text,
@@ -84,13 +87,22 @@ class _RegisterPageState extends State<RegisterPage> {
                   "foto": UserEmail.getUserPhotoUrl(),
                 };
                 print(json);
-                final result = AuthApi().postRegister(json);
-
-                // print(namaController.text);
-                // Navigator.of(context).pushNamedAndRemoveUntil(
-                //     MainPage.route, (context) => false);
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    MainPage.route, (context) => false);
+                final result = await AuthApi().postRegister(json);
+                if (result.status == Status.success) {
+                  final registerResult = UserByEmail.fromJson(result.data!);
+                  if (registerResult.status == 1) {
+                    await PreferenceHelper().setUserData(registerResult.data!);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        MainPage.route, (context) => false);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(registerResult.message!)));
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text("Terjadi kesalahan, silahkan ulangi kembali")));
+                }
               },
               backgroundColor: R.colors.primary,
               borderColor: R.colors.primary,
