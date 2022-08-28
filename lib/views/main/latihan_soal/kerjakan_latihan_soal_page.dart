@@ -100,6 +100,8 @@ class _KerjakanLatihanSoalPageState extends State<KerjakanLatihanSoalPage>
                                 content:
                                     Text("Submit gagal. silahkan ulangi")));
                           }
+                          print("hasil jawaban");
+                          print(result.status);
                         }
                       } else {
                         _controller!.animateTo(_controller!.index + 1);

@@ -8,7 +8,7 @@ class ApiUrl {
   static String latihanMapel = "exercise/data_course";
   static String latihanPaketSoal = "exercise/data_exercise";
   static String latihanKerjakanSoal = "exercise/kerjakan";
-  static String latihanSubmitJawaban = "excercise/input_jawaban";
-  static String latihanSkor = "excercise/score_result";
+  static String latihanSubmitJawaban = "exercise/input_jawaban";
+  static String latihanSkor = "exercise/score_result";
   static String banner = "event/list";
 }

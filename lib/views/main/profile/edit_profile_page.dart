@@ -25,6 +25,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final emailController = TextEditingController();
   final schoolNameController = TextEditingController();
   final fullNameController = TextEditingController();
+  final jenjangController = TextEditingController();
 
   onTapGender(Gender genderInput) {
     if (genderInput == Gender.lakiLaki) {
@@ -37,13 +38,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   initDataUSer() async {
     // emailController.text = UserEmail.getUserEmail()!;
-    // // fullNameController.text = UserEmail.getUserDisplayName()!;
-    // final dataUser = await PreferenceHelper().getUserData();
-    // fullNameController.text = dataUser!.userName!;
-    // schoolNameController.text = dataUser.userAsalSekolah!;
-    // gender = dataUser.userGender!;
-    // // selectedClass = dataUser.jenjang!;
-    // print(dataUser.userGender!);
+    // fullNameController.text = UserEmail.getUserDisplayName()!;
+    final dataUser = await PreferenceHelper().getUserData();
+    fullNameController.text = dataUser!.userName!;
+    emailController.text = dataUser.userEmail!;
+    jenjangController.text = dataUser.jenjang!;
+    schoolNameController.text = dataUser.userAsalSekolah!;
+    gender = dataUser.userGender!;
+    // selectedClass = dataUser.jenjang!;
+    print(dataUser.userGender!);
 
     setState(() {});
   }
@@ -79,35 +82,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: ButtonLogin(
             // radius: 8,
             onTap: () async {
-              // final json = {
-              //   "email": emailController.text,
-              //   "nama_lengkap": fullNameController.text,
-              //   "nama_sekolah": schoolNameController.text,
-              //   "kelas": selectedClass,
-              //   "gender": gender,
-              //   "foto": UserEmail.getUserPhotoUrl(),
-              // };
-              // print(json);
-              // final result = await AuthApi().postUpdateUSer(json);
-              // if (result.status == Status.success) {
-              //   final registerResult = UserByEmail.fromJson(result.data!);
-              //   if (registerResult.status == 1) {
-              //     await PreferenceHelper().setUserData(registerResult.data!);
-              //     Navigator.pop(context, true);
-              //   } else {
-              //     ScaffoldMessenger.of(context).showSnackBar(
-              //       SnackBar(
-              //         content: Text(registerResult.message!),
-              //       ),
-              //     );
-              //   }
-              // } else {
-              //   ScaffoldMessenger.of(context).showSnackBar(
-              //     SnackBar(
-              //       content: Text("Terjadi kesalahan, silahkan ulangi kembali"),
-              //     ),
-              //   );
-              // }
+              final json = {
+                "email": emailController.text,
+                "nama_lengkap": fullNameController.text,
+                "nama_sekolah": schoolNameController.text,
+                "jenjang": jenjangController.text,
+                "kelas": selectedClass,
+                "gender": gender,
+                "foto": UserEmail.getUserPhotoUrl(),
+              };
+              print(json);
+              final result = await AuthApi().postUpdateUSer(json);
+              print(result.status);
+              if (result.status == Status.success) {
+                final registerResult = UserByEmail.fromJson(result.data!);
+                if (registerResult.status == 1) {
+                  await PreferenceHelper().setUserData(registerResult.data!);
+                  Navigator.pop(context, true);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(registerResult.message!),
+                    ),
+                  );
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Terjadi kesalahan, silahkan ulangi kembali"),
+                  ),
+                );
+              }
             },
             backgroundColor: R.colors.primary,
             borderColor: R.colors.primary,
@@ -129,9 +134,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               EditProfileTextField(
-                controller: emailController,
                 hintText: 'Email Anda',
                 title: "Email",
+                controller: emailController,
                 enabled: false,
               ),
               EditProfileTextField(
@@ -248,6 +253,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       }),
                 ),
               ),
+              SizedBox(height: 5),
+              EditProfileTextField(
+                hintText: 'Jenjang Pendidikan',
+                title: "Jenjang",
+                controller: jenjangController,
+              ),
+              // Spacer(),
+
               SizedBox(height: 5),
               EditProfileTextField(
                 hintText: 'Nama Sekolah',

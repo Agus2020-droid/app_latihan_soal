@@ -22,8 +22,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   UserData? user;
   getUserData() async {
-    // final data = await PreferenceHelper().getUserData();
-    // user = data;
+    final data = await PreferenceHelper().getUserData();
+    user = data;
     setState(() {});
   }
 
@@ -58,194 +58,196 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Text("Edit", style: TextStyle(color: Colors.white)))
         ],
       ),
-      body:
-          // user == null
-          //     ? Center(child: CircularProgressIndicator())
-          //     :
-          Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 28, bottom: 50, left: 15, right: 15),
-            decoration: BoxDecoration(
-                color: R.colors.primary,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(9),
-                    bottomRight: Radius.circular(9))),
-            child: Row(
+      body: user == null
+          ? Center(child: CircularProgressIndicator())
+          : Column(
               children: [
-                Expanded(
+                Container(
+                  padding:
+                      EdgeInsets.only(top: 28, bottom: 50, left: 15, right: 15),
+                  decoration: BoxDecoration(
+                      color: R.colors.primary,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(9),
+                          bottomRight: Radius.circular(9))),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user!.userName!,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20),
+                            ),
+                            Text(
+                              user!.userAsalSekolah!,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Image.asset(
+                        R.assets.imgUser,
+                        height: 50,
+                        width: 50,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.25))
+                      ]),
+                  margin: EdgeInsets.symmetric(vertical: 18, horizontal: 13),
+                  padding: EdgeInsets.symmetric(vertical: 18, horizontal: 13),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Nama",
+                        "Identitas Diri",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20),
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       Text(
-                        "Nama Sekolah User",
+                        "Nama Lengkap",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12),
+                            color: R.colors.greySubtitleHome, fontSize: 12),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        user!.userName!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Email",
+                        style: TextStyle(
+                            color: R.colors.greySubtitleHome, fontSize: 12),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        user!.userEmail!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Jenis Kelamin",
+                        style: TextStyle(
+                            color: R.colors.greySubtitleHome, fontSize: 12),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        user!.userGender!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Kelas",
+                        style: TextStyle(
+                            color: R.colors.greySubtitleHome, fontSize: 12),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        user!.jenjang!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Sekolah",
+                        style: TextStyle(
+                            color: R.colors.greySubtitleHome, fontSize: 12),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        user!.userAsalSekolah!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
                 ),
-                Image.asset(
-                  R.assets.imgUser,
-                  height: 50,
-                  width: 50,
+                GestureDetector(
+                  onTap: () async {
+                    if (kIsWeb) {
+                      await GoogleSignIn(
+                              clientId:
+                                  "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com"
+                              // scopes: <String>[
+                              //   'email',
+                              //   'https://www.googleapis.com/auth/contacts.readonly',
+                              // ]
+                              )
+                          .signOut();
+                    } else {
+                      await GoogleSignIn().signOut();
+                    }
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        LoginPage.route, (route) => false);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 13),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 7,
+                            color: Colors.black.withOpacity(0.25))
+                      ],
+                    ),
+                    child: Row(children: [
+                      Icon(
+                        Icons.exit_to_app,
+                        color: Colors.red,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Keluar",
+                        style: TextStyle(
+                          color: Colors.red,
+                          // fontSize: 12,
+                        ),
+                      ),
+                    ]),
+                  ),
                 )
               ],
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 10, color: Colors.black.withOpacity(0.25))
-                ]),
-            margin: EdgeInsets.symmetric(vertical: 18, horizontal: 13),
-            padding: EdgeInsets.symmetric(vertical: 18, horizontal: 13),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Identitas Diri",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Nama Lengkap",
-                  style:
-                      TextStyle(color: R.colors.greySubtitleHome, fontSize: 12),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Agus Dwi Anggoro",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Email",
-                  style:
-                      TextStyle(color: R.colors.greySubtitleHome, fontSize: 12),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Agus@gmail.com",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Jenis Kelamin",
-                  style:
-                      TextStyle(color: R.colors.greySubtitleHome, fontSize: 12),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "Laki-laki",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Kelas",
-                  style:
-                      TextStyle(color: R.colors.greySubtitleHome, fontSize: 12),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "XII-IPA",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Sekolah",
-                  style:
-                      TextStyle(color: R.colors.greySubtitleHome, fontSize: 12),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "SMK Negeri 1 Purbalingga",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              if (kIsWeb) {
-                await GoogleSignIn(
-                        clientId:
-                            "951632455737-nk1crkifqs0ph540ifp4g8asiclsncla.apps.googleusercontent.com"
-                        // scopes: <String>[
-                        //   'email',
-                        //   'https://www.googleapis.com/auth/contacts.readonly',
-                        // ]
-                        )
-                    .signOut();
-              } else {
-                await GoogleSignIn().signOut();
-              }
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
-            },
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 13),
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 7, color: Colors.black.withOpacity(0.25))
-                ],
-              ),
-              child: Row(children: [
-                Icon(
-                  Icons.exit_to_app,
-                  color: Colors.red,
-                ),
-                SizedBox(width: 10),
-                Text(
-                  "Keluar",
-                  style: TextStyle(
-                    color: Colors.red,
-                    // fontSize: 12,
-                  ),
-                ),
-              ]),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

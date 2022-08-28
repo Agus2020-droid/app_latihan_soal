@@ -22,8 +22,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  UserData? dataUser;
-
   MapelList? mapelList;
   getMapel() async {
     final mapelResult = await LatihanSoalApi().getMapel();
@@ -46,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     print(banner.status);
   }
 
+  UserData? dataUser;
   Future getUserDAta() async {
     dataUser = await PreferenceHelper().getUserData();
     setState(() {
@@ -251,8 +250,8 @@ class MapelWidget extends StatelessWidget {
   const MapelWidget({
     Key? key,
     required this.title,
-    required this.totalDone,
     required this.totalPacket,
+    required this.totalDone,
   }) : super(key: key);
 
   final String title;
@@ -296,18 +295,35 @@ class MapelWidget extends StatelessWidget {
                 Stack(
                   children: [
                     Container(
-                      height: 10,
+                      height: 5,
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: R.colors.grey,
                           borderRadius: BorderRadius.circular(10)),
                     ),
-                    Container(
-                      height: 10,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                          color: R.colors.primary,
-                          borderRadius: BorderRadius.circular(10)),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: totalDone!,
+                          child: Container(
+                            height: 5,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: R.colors.primary,
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                        Expanded(
+                          flex: totalPacket! - totalDone!,
+                          child: Container(
+                              // height: 10,
+                              // width: MediaQuery.of(context).size.width * 0.4,
+                              // decoration: BoxDecoration(
+                              //     color: R.colors.primary,
+                              //     borderRadius: BorderRadius.circular(10)),
+                              ),
+                        ),
+                      ],
                     )
                   ],
                 )

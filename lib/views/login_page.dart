@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -98,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Spacer(),
+            // if (Platform.isAndroid)
             ButtonLogin(
                 onTap: () async {
                   // kondisi sign-in google
@@ -154,6 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 )),
+            // if (Platform.isIOS)
             ButtonLogin(
                 onTap: () {},
                 backgroundColor: Colors.black,

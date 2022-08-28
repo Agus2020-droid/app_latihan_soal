@@ -19,6 +19,8 @@ class _ResultPageState extends State<ResultPage> {
       resultData = ResultResponse.fromJson(result.data!);
       setState(() {});
     }
+    print("Score");
+    print(result.status);
   }
 
   @override

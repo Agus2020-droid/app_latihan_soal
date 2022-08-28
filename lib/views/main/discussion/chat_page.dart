@@ -20,23 +20,23 @@ class _ChatPageState extends State<ChatPage> {
   final textController = TextEditingController();
   late CollectionReference chat;
   late QuerySnapshot chatData;
-  // List<QueryDocumentSnapshot>? listChat;
-  // getDataFromFirebase() async {
-  //   chatData = await FirebaseFirestore.instance
-  //       .collection("room")
-  //       .doc("kimia")
-  //       .collection("chat")
-  //       .get();
-  //   // listChat = chatData.docs;
-  //   setState(() {});
-  //   // print(chatData.docs);
-  // }
+  List<QueryDocumentSnapshot>? listChat;
+  getDataFromFirebase() async {
+    chatData = await FirebaseFirestore.instance
+        .collection("room")
+        .doc("kimia")
+        .collection("chat")
+        .get();
+    // listChat = chatData.docs;
+    setState(() {});
+    // print(chatData.docs);
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getDataFromFirebase();
+    getDataFromFirebase();
   }
 
   @override
@@ -156,9 +156,25 @@ class _ChatPageState extends State<ChatPage> {
                                                   ? Radius.circular(0)
                                                   : Radius.circular(10),
                                         )),
-                                    child: Text(
-                                      currentChat["content"],
-                                    ),
+                                    child: currentChat["is_deleted"] == true
+                                        ? Text(
+                                            "Pesan telah dihapus",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontStyle: FontStyle.italic),
+                                          )
+                                        : currentChat["type"] == "file"
+                                            ? Image.network(
+                                                currentChat["fileUrl"],
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Icon(Icons.warning),
+                                                  );
+                                                },
+                                              )
+                                            : ballonChat(currentChat),
                                     // baloonChat(currentChat),
                                   ),
                                 ),
@@ -307,7 +323,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget baloonChat(QueryDocumentSnapshot currentChat) {
+  Widget ballonChat(QueryDocumentSnapshot currentChat) {
     if (currentChat["is_deleted"] == true) {
       return const Text(
         "Pesan telah dihapus",

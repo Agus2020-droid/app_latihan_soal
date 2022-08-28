@@ -33,20 +33,20 @@ class SplashScreen extends StatelessWidget {
           if (dataUser.status == Status.success) {
             final data = UserByEmail.fromJson(dataUser.data!);
             if (data.status == 1) {
-              Navigator.of(context).pushNamed(MainPage.route);
+              Navigator.of(context).pushReplacementNamed(MainPage.route);
               // print(dataUser.status);
 
               // await PreferenceHelper().setUserData(data.data!);
             } else {
-              Navigator.of(context).pushNamed(RegisterPage.route);
+              Navigator.of(context).pushReplacementNamed(RegisterPage.route);
               // print(dataUser.status);
 
             }
           }
         }
       } else {
-      Navigator.of(context).pushReplacementNamed(LoginPage.route);
-        }
+        Navigator.of(context).pushReplacementNamed(LoginPage.route);
+      }
     });
     // Timer(const Duration(seconds: 2), () async {
     //   final user = UserEmail.getUserEmail();
